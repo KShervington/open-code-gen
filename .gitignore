@@ -1,5 +1,9 @@
 out
 dist
 node_modules
+
+# Ignore local models
+**.gguf 
+
 .vscode-test/
 *.vsix
