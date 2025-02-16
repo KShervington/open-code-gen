@@ -1,21 +1,12 @@
 import * as vscode from "vscode";
-import { ChatLlamaCpp } from "@langchain/community/chat_models/llama_cpp";
-
-function getModelPath() {
-  if (!process.env.LLAMA_MODEL_PATH) {
-    throw new Error("LLAMA_MODEL_PATH is not set");
-  }
-
-  return process.env.LLAMA_MODEL_PATH;
-}
-const MODEL_PATH: string = getModelPath();
+import { Ollama } from "@langchain/ollama";
 
 export class CodeCompletionProvider implements vscode.CompletionItemProvider {
-  private model: Promise<ChatLlamaCpp>;
+  private model: Ollama;
 
   constructor() {
-    this.model = ChatLlamaCpp.initialize({
-      modelPath: MODEL_PATH,
+    this.model = new Ollama({
+      model: "llama3.2:1b",
     });
   }
 
@@ -27,7 +18,7 @@ export class CodeCompletionProvider implements vscode.CompletionItemProvider {
   ): Promise<vscode.CompletionList> {
     const linePrefix = document
       .lineAt(position)
-      .text.substr(0, position.character);
+      .text.slice(0, position.character);
 
     // Basic trigger condition: Suggest completions after typing at least 3 characters
     if (linePrefix.trim().length < 3) {
@@ -68,12 +59,14 @@ export class CodeCompletionProvider implements vscode.CompletionItemProvider {
         position
       )
     ); // Last 2 lines and current line up to cursor
-    return precedingLines + currentLine.substr(0, position.character);
+    return precedingLines + currentLine.slice(0, position.character);
   }
 
   private async getLLMCompletions(context: string): Promise<string[]> {
     // ** Placeholder for LLM Interaction - Replace with your LangChain and Llama API logic **
 
-    return [];
+    console.log("Code Context from getLLMCompletions(): ", context);
+
+    return ["Testing completion 1", "Testing completion 2"];
   }
 }
