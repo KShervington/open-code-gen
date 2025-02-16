@@ -5,5 +5,8 @@ node_modules
 # Ignore local models
 **.gguf 
 
+# Environment variables
+.env
+
 .vscode-test/
 *.vsix
