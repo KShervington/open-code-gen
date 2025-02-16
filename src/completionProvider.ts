@@ -26,7 +26,7 @@ export class CodeCompletionProvider implements vscode.CompletionItemProvider {
     }
 
     // 1. Get Code Context
-    const codeContext = this.getCodeContext(document, position);
+    const codeContext = this.getCodeContext(document, position, 6);
 
     // 2. Call LLM for Code Completion (Placeholder - Replace with actual LLM interaction)
     const llmCompletions = await this.getLLMCompletions(codeContext);
@@ -49,24 +49,37 @@ export class CodeCompletionProvider implements vscode.CompletionItemProvider {
 
   private getCodeContext(
     document: vscode.TextDocument,
-    position: vscode.Position
+    position: vscode.Position,
+    numLines: number = 2
   ): string {
     // You can customize how much context you send to the LLM
     const currentLine = document.lineAt(position.line).text;
     const precedingLines = document.getText(
       new vscode.Range(
-        new vscode.Position(Math.max(0, position.line - 2), 0),
+        new vscode.Position(Math.max(0, position.line - numLines), 0),
         position
       )
-    ); // Last 2 lines and current line up to cursor
+    ); // Last n lines and current line up to cursor
     return precedingLines + currentLine.slice(0, position.character);
   }
 
   private async getLLMCompletions(context: string): Promise<string[]> {
     // ** Placeholder for LLM Interaction - Replace with your LangChain and Llama API logic **
 
-    console.log("Code Context from getLLMCompletions(): ", context);
+    // console.log("Code Context from getLLMCompletions():\n", context);
 
-    return ["Testing completion 1", "Testing completion 2"];
+    // Store start time
+    const startTime = Date.now();
+
+    const completion: string = await this.model.invoke(context);
+
+    // Calculate time taken
+    const timeTaken = Date.now() - startTime;
+
+    console.log(
+      `Completion from LLM after [${timeTaken}] seconds:\n${completion}`
+    );
+
+    return [completion];
   }
 }
