@@ -6,7 +6,7 @@ export class CodeCompletionProvider implements vscode.CompletionItemProvider {
 
   constructor() {
     this.model = new Ollama({
-      model: "llama3.2:1b",
+      model: "qwen2.5-coder:7b",
     });
   }
 
@@ -77,7 +77,7 @@ export class CodeCompletionProvider implements vscode.CompletionItemProvider {
     const timeTaken = Date.now() - startTime;
 
     console.log(
-      `Completion from LLM after [${timeTaken}] seconds:\n${completion}`
+      `Completion from LLM after [${timeTaken / 1000}] seconds:\n${completion}`
     );
 
     return [completion];
