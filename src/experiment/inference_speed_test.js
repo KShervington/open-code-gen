@@ -14,7 +14,7 @@ async function testInferenceSpeed(modelName, prompt) {
 }
 
 // Tests for starcoder2, codellama, and qwen2.5-coder models
-const modelName = "starcoder2:7b";
+const modelName = "qwen2.5-coder:7b";
 const prompt = "function helloWorld() {";
 const numTrials = 20;
 let timeTracker = [];
