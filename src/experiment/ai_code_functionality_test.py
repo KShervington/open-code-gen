@@ -6,7 +6,7 @@ class TestCodeCompletion(unittest.TestCase):
 
     def setUp(self):
         # Initialize Ollama model.  Adjust model name as needed.
-        self.llm = Ollama(model="qwen2.5-coder:7b")  # Or another suitable code model
+        self.llm = Ollama(model="qwen2.5-coder:7b")
 
         self.prompt_template = """
         Write a Python function called `calculate` that performs the following operation: {operation}

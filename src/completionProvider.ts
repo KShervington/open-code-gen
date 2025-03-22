@@ -37,10 +37,7 @@ export class CodeCompletionProvider implements vscode.CompletionItemProvider {
         completion,
         vscode.CompletionItemKind.Snippet
       );
-      completionItem.insertText = completion; // Or vscode.SnippetString for more complex snippets
-      completionItem.documentation = new vscode.MarkdownString(
-        `Code completion from Llama model`
-      ); // Optional documentation
+      completionItem.insertText = completion;
       return completionItem;
     });
 
@@ -64,8 +61,6 @@ export class CodeCompletionProvider implements vscode.CompletionItemProvider {
   }
 
   private async getLLMCompletions(context: string): Promise<string[]> {
-    // ** Placeholder for LLM Interaction - Replace with your LangChain and Llama API logic **
-
     // console.log("Code Context from getLLMCompletions():\n", context);
 
     // Store start time
