@@ -9,7 +9,9 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
@@ -36,12 +38,13 @@
     "@vscode/test-cli": "^0.0.10",
     "@vscode/test-electron": "^2.4.1",
     "eslint": "^9.19.0",
+    "perf_hooks": "^0.0.1",
     "typescript": "^5.7.3"
   },
   "dependencies": {
     "@langchain/community": "^0.3.30",
     "@langchain/core": "^0.3.40",
-    "cmake-js": "^7.3.0",
-    "node-llama-cpp": "^3.5.0"
+    "@langchain/ollama": "^0.2.0",
+    "cmake-js": "^7.3.0"
   }
 }

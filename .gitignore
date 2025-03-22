@@ -5,5 +5,14 @@ node_modules
 # Ignore local models
 **.gguf 
 
+# Environment variables
+.env
+
+# Python virtual environment
+.venv
+
 .vscode-test/
 *.vsix
+
+# Temp file used for testing completions
+test_code.py
