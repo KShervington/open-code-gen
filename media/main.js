@@ -1,8 +1,9 @@
 // Get access to the VS Code API from within the webview
 const vscode = acquireVsCodeApi();
 
-// Store state information
-let currentContent = '';
+// Initialize state management
+const previousState = vscode.getState() || { content: '' };
+let currentContent = previousState.content || '';
 
 // Handle messages from the extension
 window.addEventListener('message', event => {
@@ -17,6 +18,13 @@ window.addEventListener('message', event => {
     }
 });
 
+// Initialize content on load if we have any
+document.addEventListener('DOMContentLoaded', () => {
+    if (currentContent) {
+        updateContentView();
+    }
+});
+
 // Update the content view with the current markdown content
 function updateContentView() {
     const contentElement = document.getElementById('content');
@@ -28,6 +36,9 @@ function updateContentView() {
     document.querySelectorAll('pre code').forEach((block) => {
         highlightSyntax(block);
     });
+    
+    // Save state
+    vscode.setState({ content: currentContent });
 }
 
 // Simple syntax highlighting function

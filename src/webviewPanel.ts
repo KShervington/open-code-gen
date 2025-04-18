@@ -5,6 +5,7 @@ export class CodeCompletionWebviewPanel {
   public static currentPanel: CodeCompletionWebviewPanel | undefined;
   public readonly _panel: vscode.WebviewPanel;
   private _disposables: vscode.Disposable[] = [];
+  private _content: string = '';
 
   private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
     this._panel = panel;
@@ -15,6 +16,20 @@ export class CodeCompletionWebviewPanel {
     // Listen for when the panel is disposed
     // This happens when the user closes the panel or when the panel is closed programmatically
     this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
+    
+    // Handle state changes when the panel becomes visible or hidden
+    this._panel.onDidChangeViewState(
+      e => {
+        if (this._panel.visible) {
+          // Panel became visible, restore content if we have any
+          if (this._content) {
+            this.updateContent(this._content);
+          }
+        }
+      },
+      null,
+      this._disposables
+    );
   }
 
   public static createOrShow(extensionUri: vscode.Uri) {
@@ -48,6 +63,9 @@ export class CodeCompletionWebviewPanel {
   }
 
   public updateContent(markdownContent: string) {
+    // Store the content
+    this._content = markdownContent;
+    
     // Send a message to the webview with the markdown content
     this._panel.webview.postMessage({ 
       command: 'updateContent', 
