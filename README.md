@@ -1,35 +1,68 @@
-# open-code-gen README
+# Open Code Gen
 
-This is the README for your extension "open-code-gen". After writing up a brief description, we recommend including the following sections.
+A VSCode extension that uses LLM-powered code completion to help developers write code more efficiently. This extension leverages the Ollama API to generate contextually relevant code suggestions based on your current code.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+### AI-Powered Code Completion
 
-For example if there is an image subfolder under your extension project workspace:
+This extension provides intelligent code completion using a local LLM through Ollama:
 
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+- **Context-Aware Completions**: The extension analyzes your code context to provide relevant suggestions
+- **Right-Click to Complete Code**: Simply right-click in your editor and select "Complete code" from the context menu
+- **Progress Notification**: A notification shows the progress while the LLM generates your code completion
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+- [Ollama](https://ollama.ai/) must be installed and running locally
+- The `qwen2.5-coder:7b` model should be pulled in Ollama (or modify the model in the source code)
 
-## Extension Settings
+## Installation
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+### From Source
 
-For example:
+1. Clone this repository
+2. Run `npm install` to install dependencies
+3. Run `npm run compile` to compile the TypeScript code
+4. Press F5 in VSCode to launch the extension in debug mode
 
-This extension contributes the following settings:
+## Usage
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+1. Open any code file in VSCode
+2. Position your cursor where you want to insert code
+3. Right-click and select "Complete code" from the context menu
+4. Wait for the LLM to generate a completion (a notification will show progress)
+5. The generated code will be inserted at your cursor position
+
+## How It Works
+
+The extension uses the following components:
+
+- **ReviewProvider**: Interfaces with the Ollama API to generate code completions
+- **Context Menu Integration**: Provides a right-click option to trigger code completion
+- **Code Context Analysis**: Extracts relevant code context from your current file
+
+## Technical Details
+
+The extension is built with:
+
+- TypeScript
+- VSCode Extension API
+- LangChain.js for Ollama integration
+- Ollama for local LLM inference
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+- The extension requires Ollama to be running locally
+- Large code completions may take some time to generate depending on your hardware
+- The extension currently uses a fixed number of lines for context (6 lines)
+
+## Future Improvements
+
+- Add configuration options for model selection
+- Implement customizable context window size
+- Add support for more advanced code generation features
+- Improve error handling and user feedback
 
 ## Release Notes
 
