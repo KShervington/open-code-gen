@@ -2,6 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
 import { ReviewProvider } from "./reviewProvider";
+import { CodeCompletionWebviewPanel } from "./webviewPanel";
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -35,6 +36,32 @@ export function activate(context: vscode.ExtensionContext) {
         return;
       }
 
+      // Create or show the webview panel
+      const panel = CodeCompletionWebviewPanel.createOrShow(context.extensionUri);
+
+      // Set up message handling from the webview
+      panel._panel.webview.onDidReceiveMessage(
+        message => {
+          switch (message.command) {
+            case 'insertAtCursor':
+              // Insert the code at the cursor position
+              const editor = vscode.window.activeTextEditor;
+              if (editor) {
+                editor.edit(editBuilder => {
+                  editBuilder.insert(editor.selection.active, message.text);
+                });
+              }
+              return;
+            case 'notification':
+              // Show a notification
+              vscode.window.showInformationMessage(message.text);
+              return;
+          }
+        },
+        undefined,
+        context.subscriptions
+      );
+
       // Show progress indicator
       await vscode.window.withProgress(
         {
@@ -65,10 +92,8 @@ export function activate(context: vscode.ExtensionContext) {
               `Completion from LLM after [${timeTaken / 1000}] seconds:\n${completion}`
             );
 
-            // Insert the completion at the current position
-            editor.edit((editBuilder) => {
-              editBuilder.insert(position, completion);
-            });
+            // Update the webview content with the completion
+            panel.updateContent(completion);
           } catch (error) {
             console.error("Error generating code completion:", error);
             vscode.window.showErrorMessage(
