@@ -21,14 +21,15 @@
       },
       {
         "command": "open-code-gen.completeCode",
-        "title": "Complete code"
+        "title": "Improve code"
       }
     ],
     "menus": {
       "editor/context": [
         {
           "command": "open-code-gen.completeCode",
-          "group": "navigation"
+          "group": "navigation",
+          "when": "editorHasSelection"
         }
       ]
     }

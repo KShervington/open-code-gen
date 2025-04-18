@@ -10,11 +10,15 @@ export class ReviewProvider {
     console.log("ReviewProvider initialized");
   }
 
-  async getReview(generatedCode: string): Promise<string> {
+  async getReview(selectedCode: string): Promise<string> {
     console.log("Generating review");
 
-    // Call LLM for Code Completion (Placeholder - Replace with actual LLM interaction)
-    const review = await this.model.invoke(generatedCode);
+    // Use LangChain prompt template
+    const prompt = `Improve the following code:\n\n{code}`;
+    const input = prompt.replace('{code}', selectedCode);
+
+    // Call LLM for code improvement
+    const review = await this.model.invoke(input);
 
     console.log("Review generated");
 

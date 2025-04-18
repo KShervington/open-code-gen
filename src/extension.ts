@@ -66,38 +66,35 @@ export function activate(context: vscode.ExtensionContext) {
       await vscode.window.withProgress(
         {
           location: vscode.ProgressLocation.Notification,
-          title: "Generating code completion...",
+          title: "Improving selected code...",
           cancellable: false,
         },
         async (progress) => {
           try {
-            // Get current document and position
+            // Get current document and selection
             const document = editor.document;
-            const position = editor.selection.active;
+            const selection = editor.selection;
+            const selectedCode = document.getText(selection);
 
-            // Get code context (similar to what's in completionProvider)
-            const numLines = 6; // Number of preceding lines for context
-            const codeContext = document.getText(
-              new vscode.Range(
-                new vscode.Position(Math.max(0, position.line - numLines), 0),
-                position
-              )
-            );
+            if (!selectedCode || selectedCode.trim() === "") {
+              vscode.window.showInformationMessage("Please select the code you want to improve.");
+              return;
+            }
 
-            // Get completion from the reviewProvider
+            // Get improved code from the reviewProvider
             const startTime = Date.now();
-            const completion = await reviewProvider.getReview(codeContext);
+            const improvedCode = await reviewProvider.getReview(selectedCode);
             const timeTaken = Date.now() - startTime;
             console.log(
-              `Completion from LLM after [${timeTaken / 1000}] seconds:\n${completion}`
+              `Improved code from LLM after [${timeTaken / 1000}] seconds:\n${improvedCode}`
             );
 
-            // Update the webview content with the completion
-            panel.updateContent(completion);
+            // Update the webview content with the improved code
+            panel.updateContent(improvedCode);
           } catch (error) {
-            console.error("Error generating code completion:", error);
+            console.error("Error improving code:", error);
             vscode.window.showErrorMessage(
-              `Error generating code completion: ${error}`
+              `Error improving code: ${error}`
             );
           }
         }
