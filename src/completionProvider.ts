@@ -1,13 +1,11 @@
 import * as vscode from "vscode";
-import { Ollama } from "@langchain/ollama";
+import { ReviewProvider } from "./reviewProvider";
 
 export class CodeCompletionProvider implements vscode.CompletionItemProvider {
-  private model: Ollama;
+  private model: ReviewProvider;
 
   constructor() {
-    this.model = new Ollama({
-      model: "qwen2.5-coder:7b",
-    });
+    this.model = new ReviewProvider();
   }
 
   async provideCompletionItems(
@@ -66,7 +64,7 @@ export class CodeCompletionProvider implements vscode.CompletionItemProvider {
     // Store start time
     const startTime = Date.now();
 
-    const completion: string = await this.model.invoke(context);
+    const completion: string = await this.model.getReview(context);
 
     // Calculate time taken
     const timeTaken = Date.now() - startTime;
