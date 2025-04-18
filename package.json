@@ -18,8 +18,20 @@
       {
         "command": "open-code-gen.helloWorld",
         "title": "Hello World"
+      },
+      {
+        "command": "open-code-gen.completeCode",
+        "title": "Complete code"
       }
-    ]
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "open-code-gen.completeCode",
+          "group": "navigation"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
