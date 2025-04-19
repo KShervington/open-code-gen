@@ -2,21 +2,24 @@ import { Ollama } from "@langchain/ollama";
 import { PromptTemplate } from "@langchain/core/prompts";
 import { RunnableSequence } from "@langchain/core/runnables";
 import { traceable } from "langsmith/traceable";
-import { Client } from "langsmith";
-import * as dotenv from "dotenv";
 
 export class ReviewProvider {
   private model: Ollama;
   private chain: RunnableSequence;
+  private systemMessage: string =
+    "You are a code review assistant. Your task is to review the provided code and suggest improvements.";
+  private humanMessage: string = "Improve the following code:";
 
   constructor() {
     this.model = new Ollama({
       model: "codellama:7b",
+      numGpu: 1,
+      temperature: 0.5,
     });
 
     // Create a prompt template
     const promptTemplate = PromptTemplate.fromTemplate(
-      "Improve the following code:\n\n{code}"
+      "{system_message}\n\n{human_message}\n{code}"
     );
 
     // Create a chain that will be traced
@@ -31,6 +34,8 @@ export class ReviewProvider {
     try {
       // Use the chain to invoke model
       const review = await this.chain.invoke({
+        system_message: this.systemMessage,
+        human_message: this.humanMessage,
         code: selectedCode,
       });
 
