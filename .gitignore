@@ -5,8 +5,8 @@ node_modules
 # Ignore local models
 **.gguf 
 
-# Environment variables
-.env
+# Vs code project files
+.vscode
 
 # Python virtual environment
 .venv

@@ -3,6 +3,25 @@
 import * as vscode from "vscode";
 import { ReviewProvider } from "./reviewProvider";
 import { CodeCompletionWebviewPanel } from "./webviewPanel";
+import { Client } from "langsmith";
+
+// Verify LangSmith configuration
+console.log("LangSmith Configuration in extension.ts:");
+console.log("LANGCHAIN_TRACING_V2:", process.env.LANGCHAIN_TRACING_V2);
+console.log("LANGCHAIN_ENDPOINT:", process.env.LANGCHAIN_ENDPOINT);
+console.log(
+  "LANGCHAIN_API_KEY:",
+  process.env.LANGCHAIN_API_KEY ? "[REDACTED]" : "undefined"
+);
+console.log("LANGCHAIN_PROJECT:", process.env.LANGCHAIN_PROJECT);
+
+// Initialize LangSmith client
+try {
+  const client = new Client();
+  console.log("LangSmith client initialized successfully");
+} catch (error) {
+  console.error("Error initializing LangSmith client:", error);
+}
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -37,22 +56,24 @@ export function activate(context: vscode.ExtensionContext) {
       }
 
       // Create or show the webview panel
-      const panel = CodeCompletionWebviewPanel.createOrShow(context.extensionUri);
+      const panel = CodeCompletionWebviewPanel.createOrShow(
+        context.extensionUri
+      );
 
       // Set up message handling from the webview
       panel._panel.webview.onDidReceiveMessage(
-        message => {
+        (message) => {
           switch (message.command) {
-            case 'insertAtCursor':
+            case "insertAtCursor":
               // Insert the code at the cursor position
               const editor = vscode.window.activeTextEditor;
               if (editor) {
-                editor.edit(editBuilder => {
+                editor.edit((editBuilder) => {
                   editBuilder.insert(editor.selection.active, message.text);
                 });
               }
               return;
-            case 'notification':
+            case "notification":
               // Show a notification
               vscode.window.showInformationMessage(message.text);
               return;
@@ -77,7 +98,9 @@ export function activate(context: vscode.ExtensionContext) {
             const selectedCode = document.getText(selection);
 
             if (!selectedCode || selectedCode.trim() === "") {
-              vscode.window.showInformationMessage("Please select the code you want to improve.");
+              vscode.window.showInformationMessage(
+                "Please select the code you want to improve."
+              );
               return;
             }
 
@@ -86,16 +109,16 @@ export function activate(context: vscode.ExtensionContext) {
             const improvedCode = await reviewProvider.getReview(selectedCode);
             const timeTaken = Date.now() - startTime;
             console.log(
-              `Improved code from LLM after [${timeTaken / 1000}] seconds:\n${improvedCode}`
+              `Improved code from LLM after [${
+                timeTaken / 1000
+              }] seconds:\n${improvedCode}`
             );
 
             // Update the webview content with the improved code
             panel.updateContent(improvedCode);
           } catch (error) {
             console.error("Error improving code:", error);
-            vscode.window.showErrorMessage(
-              `Error improving code: ${error}`
-            );
+            vscode.window.showErrorMessage(`Error improving code: ${error}`);
           }
         }
       );

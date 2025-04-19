@@ -56,8 +56,10 @@
   },
   "dependencies": {
     "@langchain/community": "^0.3.30",
-    "@langchain/core": "^0.3.40",
+    "@langchain/core": "^0.3.45",
     "@langchain/ollama": "^0.2.0",
-    "cmake-js": "^7.3.0"
+    "cmake-js": "^7.3.0",
+    "dotenv": "^16.5.0",
+    "langsmith": "^0.3.19"
   }
 }
