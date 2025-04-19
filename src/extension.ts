@@ -103,8 +103,15 @@ export function activate(context: vscode.ExtensionContext) {
             }
 
             // Get improved code from the reviewProvider
+            // Note: contextBeforeCode and contextAfterCode are currently empty strings
+            // as per the requirements to implement change #2 first and worry about
+            // capturing additional context in a subsequent commit
             const startTime = Date.now();
-            const improvedCode = await reviewProvider.getReview(selectedCode);
+            const improvedCode = await reviewProvider.getReview(
+              selectedCode,
+              "", // contextBeforeCode placeholder - will be implemented in subsequent change
+              ""  // contextAfterCode placeholder - will be implemented in subsequent change
+            );
             const timeTaken = Date.now() - startTime;
             console.log(
               `Improved code from LLM after [${
