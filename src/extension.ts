@@ -102,15 +102,59 @@ export function activate(context: vscode.ExtensionContext) {
               return;
             }
 
-            // Get improved code from the reviewProvider
-            // Note: contextBeforeCode and contextAfterCode are currently empty strings
-            // as per the requirements to implement change #2 first and worry about
-            // capturing additional context in a subsequent commit
+            // Capture context around the selected code
+            // Define how many lines of context to capture before and after the selection
+            const contextLineCount = 50; // Number of lines to capture before and after
+
+            // Get the start and end positions of the selection
+            const selectionStart = selection.start.line;
+            const selectionEnd = selection.end.line;
+
+            // Calculate the range for context before the selection
+            const contextBeforeStartLine = Math.max(
+              0,
+              selectionStart - contextLineCount
+            );
+            const contextBeforeRange = new vscode.Range(
+              new vscode.Position(contextBeforeStartLine, 0),
+              new vscode.Position(selectionStart, 0)
+            );
+
+            // Calculate the range for context after the selection
+            const contextAfterStartLine = selectionEnd + 1;
+            const contextAfterEndLine = Math.min(
+              document.lineCount - 1,
+              selectionEnd + contextLineCount
+            );
+            const contextAfterRange = new vscode.Range(
+              new vscode.Position(contextAfterStartLine, 0),
+              new vscode.Position(
+                contextAfterEndLine,
+                document.lineAt(contextAfterEndLine).text.length
+              )
+            );
+
+            // Extract the context text
+            const contextBeforeCode = document.getText(contextBeforeRange);
+            const contextAfterCode = document.getText(contextAfterRange);
+
+            console.log(
+              `Captured ${
+                contextBeforeCode.split("\n").length
+              } lines before selection`
+            );
+            console.log(
+              `Captured ${
+                contextAfterCode.split("\n").length
+              } lines after selection`
+            );
+
+            // Get improved code from the reviewProvider with context
             const startTime = Date.now();
             const improvedCode = await reviewProvider.getReview(
               selectedCode,
-              "", // contextBeforeCode placeholder - will be implemented in subsequent change
-              ""  // contextAfterCode placeholder - will be implemented in subsequent change
+              contextBeforeCode,
+              contextAfterCode
             );
             const timeTaken = Date.now() - startTime;
             console.log(
