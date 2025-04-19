@@ -3,7 +3,6 @@
 import * as vscode from "vscode";
 import { ReviewProvider } from "./reviewProvider";
 import { CodeCompletionWebviewPanel } from "./webviewPanel";
-import { Client } from "langsmith";
 
 // Verify LangSmith configuration
 console.log("LangSmith Configuration in extension.ts:");
@@ -17,7 +16,6 @@ console.log("LANGCHAIN_PROJECT:", process.env.LANGCHAIN_PROJECT);
 
 // Initialize LangSmith client
 try {
-  const client = new Client();
   console.log("LangSmith client initialized successfully");
 } catch (error) {
   console.error("Error initializing LangSmith client:", error);
