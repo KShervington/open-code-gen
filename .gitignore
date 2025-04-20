@@ -15,4 +15,3 @@ node_modules
 *.vsix
 
 # Temp file used for testing completions
-test_code.py
