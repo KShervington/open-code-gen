@@ -4,6 +4,23 @@ import * as vscode from "vscode";
 import { ReviewProvider } from "./reviewProvider";
 import { CodeCompletionWebviewPanel } from "./webviewPanel";
 
+// Verify LangSmith configuration
+console.log("LangSmith Configuration in extension.ts:");
+console.log("LANGCHAIN_TRACING_V2:", process.env.LANGCHAIN_TRACING_V2);
+console.log("LANGCHAIN_ENDPOINT:", process.env.LANGCHAIN_ENDPOINT);
+console.log(
+  "LANGCHAIN_API_KEY:",
+  process.env.LANGCHAIN_API_KEY ? "[REDACTED]" : "undefined"
+);
+console.log("LANGCHAIN_PROJECT:", process.env.LANGCHAIN_PROJECT);
+
+// Initialize LangSmith client
+try {
+  console.log("LangSmith client initialized successfully");
+} catch (error) {
+  console.error("Error initializing LangSmith client:", error);
+}
+
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -37,22 +54,24 @@ export function activate(context: vscode.ExtensionContext) {
       }
 
       // Create or show the webview panel
-      const panel = CodeCompletionWebviewPanel.createOrShow(context.extensionUri);
+      const panel = CodeCompletionWebviewPanel.createOrShow(
+        context.extensionUri
+      );
 
       // Set up message handling from the webview
       panel._panel.webview.onDidReceiveMessage(
-        message => {
+        (message) => {
           switch (message.command) {
-            case 'insertAtCursor':
+            case "insertAtCursor":
               // Insert the code at the cursor position
               const editor = vscode.window.activeTextEditor;
               if (editor) {
-                editor.edit(editBuilder => {
+                editor.edit((editBuilder) => {
                   editBuilder.insert(editor.selection.active, message.text);
                 });
               }
               return;
-            case 'notification':
+            case "notification":
               // Show a notification
               vscode.window.showInformationMessage(message.text);
               return;
@@ -66,39 +85,89 @@ export function activate(context: vscode.ExtensionContext) {
       await vscode.window.withProgress(
         {
           location: vscode.ProgressLocation.Notification,
-          title: "Generating code completion...",
+          title: "Improving selected code...",
           cancellable: false,
         },
         async (progress) => {
           try {
-            // Get current document and position
+            // Get current document and selection
             const document = editor.document;
-            const position = editor.selection.active;
+            const selection = editor.selection;
+            const selectedCode = document.getText(selection);
 
-            // Get code context (similar to what's in completionProvider)
-            const numLines = 6; // Number of preceding lines for context
-            const codeContext = document.getText(
-              new vscode.Range(
-                new vscode.Position(Math.max(0, position.line - numLines), 0),
-                position
+            if (!selectedCode || selectedCode.trim() === "") {
+              vscode.window.showInformationMessage(
+                "Please select the code you want to improve."
+              );
+              return;
+            }
+
+            // Capture context around the selected code
+            // Define how many lines of context to capture before and after the selection
+            const contextLineCount = 50; // Number of lines to capture before and after
+
+            // Get the start and end positions of the selection
+            const selectionStart = selection.start.line;
+            const selectionEnd = selection.end.line;
+
+            // Calculate the range for context before the selection
+            const contextBeforeStartLine = Math.max(
+              0,
+              selectionStart - contextLineCount
+            );
+            const contextBeforeRange = new vscode.Range(
+              new vscode.Position(contextBeforeStartLine, 0),
+              new vscode.Position(selectionStart, 0)
+            );
+
+            // Calculate the range for context after the selection
+            const contextAfterStartLine = selectionEnd + 1;
+            const contextAfterEndLine = Math.min(
+              document.lineCount - 1,
+              selectionEnd + contextLineCount
+            );
+            const contextAfterRange = new vscode.Range(
+              new vscode.Position(contextAfterStartLine, 0),
+              new vscode.Position(
+                contextAfterEndLine,
+                document.lineAt(contextAfterEndLine).text.length
               )
             );
 
-            // Get completion from the reviewProvider
-            const startTime = Date.now();
-            const completion = await reviewProvider.getReview(codeContext);
-            const timeTaken = Date.now() - startTime;
+            // Extract the context text
+            const contextBeforeCode = document.getText(contextBeforeRange);
+            const contextAfterCode = document.getText(contextAfterRange);
+
             console.log(
-              `Completion from LLM after [${timeTaken / 1000}] seconds:\n${completion}`
+              `Captured ${
+                contextBeforeCode.split("\n").length
+              } lines before selection`
+            );
+            console.log(
+              `Captured ${
+                contextAfterCode.split("\n").length
+              } lines after selection`
             );
 
-            // Update the webview content with the completion
-            panel.updateContent(completion);
-          } catch (error) {
-            console.error("Error generating code completion:", error);
-            vscode.window.showErrorMessage(
-              `Error generating code completion: ${error}`
+            // Get improved code from the reviewProvider with context
+            const startTime = Date.now();
+            const improvedCode = await reviewProvider.getReview(
+              selectedCode,
+              contextBeforeCode,
+              contextAfterCode
             );
+            const timeTaken = Date.now() - startTime;
+            console.log(
+              `Improved code from LLM after [${
+                timeTaken / 1000
+              }] seconds:\n${improvedCode}`
+            );
+
+            // Update the webview content with the improved code
+            panel.updateContent(improvedCode);
+          } catch (error) {
+            console.error("Error improving code:", error);
+            vscode.window.showErrorMessage(`Error improving code: ${error}`);
           }
         }
       );
