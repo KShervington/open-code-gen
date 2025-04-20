@@ -104,7 +104,7 @@ export function activate(context: vscode.ExtensionContext) {
 
             // Capture context around the selected code
             // Define how many lines of context to capture before and after the selection
-            const contextLineCount = 50; // Number of lines to capture before and after
+            const contextLineCount = 20; // Number of lines to capture before and after
 
             // Get the start and end positions of the selection
             const selectionStart = selection.start.line;

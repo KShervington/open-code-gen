@@ -8,14 +8,15 @@ A VSCode extension that uses LLM-powered code completion to help developers writ
 
 This extension provides intelligent code completion using a local LLM through Ollama:
 
-- **Context-Aware Completions**: The extension analyzes your code context to provide relevant suggestions
+- **Context-Aware Completions**: The extension analyzes your code context (20 lines before and after selection) to provide relevant suggestions
 - **Right-Click to Complete Code**: Simply right-click in your editor and select "Complete code" from the context menu
 - **Progress Notification**: A notification shows the progress while the LLM generates your code completion
+- **Interactive Results**: View generated code in a dedicated webview with options to copy or insert at cursor
 
 ## Requirements
 
 - [Ollama](https://ollama.ai/) must be installed and running locally
-- The `qwen2.5-coder:7b` model should be pulled in Ollama (or modify the model in the source code)
+- Any model should be pulled in Ollama (or modify the model in the source code)
 
 ## Installation
 
@@ -41,7 +42,9 @@ The extension uses the following components:
 
 - **ReviewProvider**: Interfaces with the Ollama API to generate code completions
 - **Context Menu Integration**: Provides a right-click option to trigger code completion
-- **Code Context Analysis**: Extracts relevant code context from your current file
+- **Code Context Analysis**: Extracts relevant code context from your current file (20 lines before and after selection)
+- **Structured Context Format**: Passes code to the LLM in a structured JSON format with `code_to_improve`, `context_before_code`, and `context_after_code`
+- **Webview Panel**: Displays the generated code with options to copy or insert at cursor
 
 ## Technical Details
 
@@ -56,7 +59,7 @@ The extension is built with:
 
 - The extension requires Ollama to be running locally
 - Large code completions may take some time to generate depending on your hardware
-- The extension currently uses a fixed number of lines for context (6 lines)
+- The extension currently uses a fixed number of lines for context (50 lines before and after selection)
 
 ## Future Improvements
 
