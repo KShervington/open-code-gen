@@ -1,0 +1,77 @@
+{
+  "baseline": {
+    "description": "Establish a baseline for how code improvements are generated and explainable.",
+    "models": [
+      "codellama:7b",
+      "qwen2.5-coder:7b",
+      "qwq:32b",
+      "deepseek-r1:32b"
+    ],
+    "modelParameters": {
+      "temperature": 0.5
+    },
+    "contextLineCount": 20,
+    "humanMessage": "Improve the specified code based on information given. Format your answer as markdown.",
+    "promptTemplate": "{system_message}\n\n{human_message}\n\nCode Context:\n```json\n{structured_context}\n```"
+  },
+  "stage1": {
+    "description": "Evaluate how chain-of-thought prompting affects code generations and explainability.",
+    "models": [
+      "codellama:7b",
+      "qwen2.5-coder:7b",
+      "qwq:32b",
+      "deepseek-r1:32b"
+    ],
+    "modelParameters": {
+      "temperature": 0.5
+    },
+    "contextLineCount": 20,
+    "humanMessage": "Improve the specified code based on the information given. I need you to think step-by-step and show your work.\n\nStep 1: Understand the Goal: Briefly restate what the original code does and what the goal of the improvement is based on the provided information.\nStep 2: Identify Problems/Opportunities: Examine the original code line-by-line or section-by-section. What specific parts violate the requirements or could be done better (e.g., inefficient loop, unclear variable name, missing validation)? List them.\nStep 3: Devise Solutions: For each problem identified in Step 2, outline the specific change you will make. Why is this the right fix? Are there alternatives you considered?\nStep 4: Construct the Improved Code: Write the new version of the code integrating the solutions from Step 3.\nStep 5: Explain the Result: Compare the new code to the old. Highlight the key changes and explain how they fulfill the requirements and lead to better code.\n\nEnsure your response follows these steps clearly. Format the entire output, including all steps and the final code, using markdown.",
+    "promptTemplate": "{system_message}\n\n{human_message}\n\nCode Context:\n```json\n{structured_context}\n```"
+  },
+  "stage2": {
+    "description": "Evaluate how additional code context affects the quality of code generation and explainability.",
+    "models": [
+      "codellama:7b",
+      "qwen2.5-coder:7b",
+      "qwq:32b",
+      "deepseek-r1:32b"
+    ],
+    "modelParameters": {
+      "temperature": 0.5
+    },
+    "contextLineCount": 50,
+    "humanMessage": "Improve the specified code based on information given. Format your answer as markdown.",
+    "promptTemplate": "{system_message}\n\n{human_message}\n\nCode Context:\n```json\n{structured_context}\n```"
+  },
+  "stage3": {
+    "description": "Evaluate how temperature affects the quality of code generation and explainability. Higher temperature means more creativity and risk of errors.",
+    "models": [
+      "codellama:7b",
+      "qwen2.5-coder:7b",
+      "qwq:32b",
+      "deepseek-r1:32b"
+    ],
+    "modelParameters": {
+      "temperature": 0.8
+    },
+    "contextLineCount": 20,
+    "humanMessage": "Improve the specified code based on information given. Format your answer as markdown.",
+    "promptTemplate": "{system_message}\n\n{human_message}\n\nCode Context:\n```json\n{structured_context}\n```"
+  },
+  "stage4": {
+    "description": "Evaluate the effect of the combination of additional code context, higher temperature, and chain-of-thought prompting on code quality and explainability.",
+    "models": [
+      "codellama:7b",
+      "qwen2.5-coder:7b",
+      "qwq:32b",
+      "deepseek-r1:32b"
+    ],
+    "modelParameters": {
+      "temperature": 0.8
+    },
+    "contextLineCount": 50,
+    "humanMessage": "Improve the specified code based on the information given. I need you to think step-by-step and show your work.\n\nStep 1: Understand the Goal: Briefly restate what the original code does and what the goal of the improvement is based on the provided information.\nStep 2: Identify Problems/Opportunities: Examine the original code line-by-line or section-by-section. What specific parts violate the requirements or could be done better (e.g., inefficient loop, unclear variable name, missing validation)? List them.\nStep 3: Devise Solutions: For each problem identified in Step 2, outline the specific change you will make. Why is this the right fix? Are there alternatives you considered?\nStep 4: Construct the Improved Code: Write the new version of the code integrating the solutions from Step 3.\nStep 5: Explain the Result: Compare the new code to the old. Highlight the key changes and explain how they fulfill the requirements and lead to better code.\n\nEnsure your response follows these steps clearly. Format the entire output, including all steps and the final code, using markdown.",
+    "promptTemplate": "{system_message}\n\n{human_message}\n\nCode Context:\n```json\n{structured_context}\n```"
+  }
+}
