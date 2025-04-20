@@ -64,6 +64,12 @@ button:hover {
   margin: 15px 0;
 }
 
+/* Code block wrapper for positioning the copy button */
+.code-block-wrapper {
+  position: relative;
+  margin: 15px 0;
+}
+
 .content code {
   font-family: 'Courier New', Courier, monospace;
   font-size: 14px;
@@ -98,4 +104,33 @@ button:hover {
 .content img {
   max-width: 100%;
   height: auto;
+}
+
+/* Copy code button styles */
+.copy-code-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  padding: 3px 8px;
+  font-size: 12px;
+  background-color: var(--vscode-button-secondaryBackground, rgba(90, 93, 94, 0.31));
+  color: var(--vscode-button-secondaryForeground, #ffffff);
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.code-block-wrapper:hover .copy-code-button {
+  opacity: 1;
+}
+
+.copy-code-button:hover {
+  background-color: var(--vscode-button-secondaryHoverBackground, rgba(90, 93, 94, 0.5));
+}
+
+.copy-code-button.copied {
+  background-color: var(--vscode-button-background);
+  color: var(--vscode-button-foreground);
 }

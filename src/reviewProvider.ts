@@ -20,7 +20,7 @@ export class ReviewProvider {
 
   constructor() {
     this.model = new Ollama({
-      model: "qwq:32b",
+      model: "codellama:7b",
       numGpu: 1,
       temperature: 0.5,
     });

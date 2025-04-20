@@ -1,25 +1,28 @@
-import * as vscode from 'vscode';
-import * as path from 'path';
+import * as vscode from "vscode";
+import * as path from "path";
 
 export class CodeCompletionWebviewPanel {
   public static currentPanel: CodeCompletionWebviewPanel | undefined;
   public readonly _panel: vscode.WebviewPanel;
   private _disposables: vscode.Disposable[] = [];
-  private _content: string = '';
+  private _content: string = "";
 
   private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri) {
     this._panel = panel;
-    
+
     // Set the webview's initial html content
-    this._panel.webview.html = this._getHtmlForWebview(this._panel.webview, extensionUri);
-    
+    this._panel.webview.html = this._getHtmlForWebview(
+      this._panel.webview,
+      extensionUri
+    );
+
     // Listen for when the panel is disposed
     // This happens when the user closes the panel or when the panel is closed programmatically
     this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
-    
+
     // Handle state changes when the panel becomes visible or hidden
     this._panel.onDidChangeViewState(
-      e => {
+      (e) => {
         if (this._panel.visible) {
           // Panel became visible, restore content if we have any
           if (this._content) {
@@ -45,31 +48,32 @@ export class CodeCompletionWebviewPanel {
 
     // Otherwise, create a new panel.
     const panel = vscode.window.createWebviewPanel(
-      'codeCompletionView',
-      'Code Completion',
+      "codeCompletionView",
+      "Code Completion",
       column || vscode.ViewColumn.One,
       {
         // Enable javascript in the webview
         enableScripts: true,
         // Restrict the webview to only load resources from the `media` directory
-        localResourceRoots: [
-          vscode.Uri.joinPath(extensionUri, 'media')
-        ]
+        localResourceRoots: [vscode.Uri.joinPath(extensionUri, "media")],
       }
     );
 
-    CodeCompletionWebviewPanel.currentPanel = new CodeCompletionWebviewPanel(panel, extensionUri);
+    CodeCompletionWebviewPanel.currentPanel = new CodeCompletionWebviewPanel(
+      panel,
+      extensionUri
+    );
     return CodeCompletionWebviewPanel.currentPanel;
   }
 
   public updateContent(markdownContent: string) {
     // Store the content
     this._content = markdownContent;
-    
+
     // Send a message to the webview with the markdown content
-    this._panel.webview.postMessage({ 
-      command: 'updateContent', 
-      content: markdownContent 
+    this._panel.webview.postMessage({
+      command: "updateContent",
+      content: markdownContent,
     });
   }
 
@@ -87,15 +91,18 @@ export class CodeCompletionWebviewPanel {
     }
   }
 
-  private _getHtmlForWebview(webview: vscode.Webview, extensionUri: vscode.Uri) {
+  private _getHtmlForWebview(
+    webview: vscode.Webview,
+    extensionUri: vscode.Uri
+  ) {
     // Get the local path to main script run in the webview
     const scriptUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(extensionUri, 'media', 'main.js')
+      vscode.Uri.joinPath(extensionUri, "media", "main.js")
     );
 
     // Get the local path to css styles
     const styleMainUri = webview.asWebviewUri(
-      vscode.Uri.joinPath(extensionUri, 'media', 'styles.css')
+      vscode.Uri.joinPath(extensionUri, "media", "styles.css")
     );
 
     // Use a nonce to only allow specific scripts to be run
@@ -106,16 +113,15 @@ export class CodeCompletionWebviewPanel {
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}';">
+      <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}'; connect-src https://cdn.jsdelivr.net;">
       <link href="${styleMainUri}" rel="stylesheet">
-      <title>Code Completion</title>
+      <title>Code Improvement</title>
     </head>
     <body>
       <div class="container">
-        <h1>Code Completion</h1>
+        <h1>Code Improvement</h1>
         <div class="actions">
-          <button id="copy-button">Copy to Clipboard</button>
-          <button id="insert-button">Insert at Cursor</button>
+          <button id="copy-button">Copy all code</button>
         </div>
         <div id="content" class="content"></div>
       </div>
@@ -127,8 +133,9 @@ export class CodeCompletionWebviewPanel {
 }
 
 function getNonce() {
-  let text = '';
-  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let text = "";
+  const possible =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   for (let i = 0; i < 32; i++) {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   }

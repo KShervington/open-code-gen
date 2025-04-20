@@ -158,9 +158,7 @@ export function activate(context: vscode.ExtensionContext) {
             );
             const timeTaken = Date.now() - startTime;
             console.log(
-              `Improved code from LLM after [${
-                timeTaken / 1000
-              }] seconds:\n${improvedCode}`
+              `LLM took [${timeTaken / 1000}] seconds to generate response.`
             );
 
             // Update the webview content with the improved code
