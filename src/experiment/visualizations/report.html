@@ -1,0 +1,268 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Code Improvement Experiment Results</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            h1, h2, h3 { color: #333; }
+            table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+            th { background-color: #f2f2f2; }
+            tr:nth-child(even) { background-color: #f9f9f9; }
+            .visualization { margin: 20px 0; text-align: center; }
+            .visualization img { max-width: 100%; height: auto; }
+        </style>
+    </head>
+    <body>
+        <h1>Code Improvement Experiment Results</h1>
+        
+        <h2>Summary by Stage</h2>
+        <table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th>stage</th>
+      <th colspan="4" halign="left">time_improvement</th>
+      <th colspan="4" halign="left">memory_improvement</th>
+      <th colspan="4" halign="left">overall_score</th>
+      <th colspan="4" halign="left">response_time</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>max</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>max</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>max</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>max</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>baseline</td>
+      <td>1222.887372</td>
+      <td>NaN</td>
+      <td>1222.887372</td>
+      <td>1222.887372</td>
+      <td>inf</td>
+      <td>NaN</td>
+      <td>inf</td>
+      <td>inf</td>
+      <td>9.150000</td>
+      <td>0.919239</td>
+      <td>8.50</td>
+      <td>9.80</td>
+      <td>187.358613</td>
+      <td>244.401457</td>
+      <td>10.791142</td>
+      <td>466.299157</td>
+    </tr>
+    <tr>
+      <td>stage1</td>
+      <td>2409.709859</td>
+      <td>1023.092211</td>
+      <td>1686.274419</td>
+      <td>3133.145299</td>
+      <td>5.0</td>
+      <td>4.242641</td>
+      <td>2.0</td>
+      <td>8.0</td>
+      <td>8.625000</td>
+      <td>0.176777</td>
+      <td>8.50</td>
+      <td>8.75</td>
+      <td>237.320380</td>
+      <td>191.264897</td>
+      <td>102.075675</td>
+      <td>372.565086</td>
+    </tr>
+    <tr>
+      <td>stage2</td>
+      <td>193.699034</td>
+      <td>NaN</td>
+      <td>193.699034</td>
+      <td>193.699034</td>
+      <td>5.0</td>
+      <td>NaN</td>
+      <td>5.0</td>
+      <td>5.0</td>
+      <td>8.583333</td>
+      <td>0.144338</td>
+      <td>8.50</td>
+      <td>8.75</td>
+      <td>118.699027</td>
+      <td>114.699129</td>
+      <td>13.984945</td>
+      <td>241.285057</td>
+    </tr>
+    <tr>
+      <td>stage3</td>
+      <td>1020.080108</td>
+      <td>1211.919293</td>
+      <td>163.123758</td>
+      <td>1877.036458</td>
+      <td>inf</td>
+      <td>NaN</td>
+      <td>8.0</td>
+      <td>inf</td>
+      <td>8.500000</td>
+      <td>0.250000</td>
+      <td>8.25</td>
+      <td>8.75</td>
+      <td>246.852845</td>
+      <td>346.505984</td>
+      <td>12.678196</td>
+      <td>644.899370</td>
+    </tr>
+    <tr>
+      <td>stage4</td>
+      <td>1704.968182</td>
+      <td>NaN</td>
+      <td>1704.968182</td>
+      <td>1704.968182</td>
+      <td>2.0</td>
+      <td>NaN</td>
+      <td>2.0</td>
+      <td>2.0</td>
+      <td>8.750000</td>
+      <td>NaN</td>
+      <td>8.75</td>
+      <td>8.75</td>
+      <td>140.207927</td>
+      <td>181.570569</td>
+      <td>11.818147</td>
+      <td>268.597707</td>
+    </tr>
+  </tbody>
+</table>
+        
+        <h2>Summary by Model</h2>
+        <table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th>model</th>
+      <th colspan="4" halign="left">time_improvement</th>
+      <th colspan="4" halign="left">memory_improvement</th>
+      <th colspan="4" halign="left">overall_score</th>
+      <th colspan="4" halign="left">response_time</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>max</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>max</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>max</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>max</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>codellama:7b</td>
+      <td>163.123758</td>
+      <td>NaN</td>
+      <td>163.123758</td>
+      <td>163.123758</td>
+      <td>inf</td>
+      <td>NaN</td>
+      <td>inf</td>
+      <td>inf</td>
+      <td>8.50</td>
+      <td>0.000000</td>
+      <td>8.50</td>
+      <td>8.50</td>
+      <td>89.597863</td>
+      <td>9.776300</td>
+      <td>82.980969</td>
+      <td>100.827079</td>
+    </tr>
+    <tr>
+      <td>deepseek-r1:14b</td>
+      <td>1626.347269</td>
+      <td>1067.090375</td>
+      <td>193.699034</td>
+      <td>3133.145299</td>
+      <td>inf</td>
+      <td>NaN</td>
+      <td>2.0</td>
+      <td>inf</td>
+      <td>8.91</td>
+      <td>0.509166</td>
+      <td>8.50</td>
+      <td>9.80</td>
+      <td>398.729275</td>
+      <td>163.991521</td>
+      <td>241.285057</td>
+      <td>644.899370</td>
+    </tr>
+    <tr>
+      <td>qwen2.5-coder:7b</td>
+      <td>1686.274419</td>
+      <td>NaN</td>
+      <td>1686.274419</td>
+      <td>1686.274419</td>
+      <td>2.0</td>
+      <td>NaN</td>
+      <td>2.0</td>
+      <td>2.0</td>
+      <td>8.50</td>
+      <td>0.250000</td>
+      <td>8.25</td>
+      <td>8.75</td>
+      <td>30.269621</td>
+      <td>40.157896</td>
+      <td>10.791142</td>
+      <td>102.075675</td>
+    </tr>
+  </tbody>
+</table>
+        
+        <h2>Visualizations</h2>
+        
+        <div class="visualization">
+            <h3>Time Improvement by Stage and Model</h3>
+            <img src="time_improvement_by_stage.png" alt="Time Improvement by Stage">
+        </div>
+        
+        <div class="visualization">
+            <h3>Memory Improvement by Stage and Model</h3>
+            <img src="memory_improvement_by_stage.png" alt="Memory Improvement by Stage">
+        </div>
+        
+        <div class="visualization">
+            <h3>Quality Scores by Stage</h3>
+            <img src="quality_scores_by_stage.png" alt="Quality Scores by Stage">
+        </div>
+        
+        <div class="visualization">
+            <h3>Model Comparison</h3>
+            <img src="model_comparison.png" alt="Model Comparison">
+        </div>
+        
+        <div class="visualization">
+            <h3>Correlation Matrix</h3>
+            <img src="correlation_matrix.png" alt="Correlation Matrix">
+        </div>
+    </body>
+    </html>
+    
