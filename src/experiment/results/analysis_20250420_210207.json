@@ -1,0 +1,75 @@
+{
+  "stages": {
+    "stage1": {
+      "total_experiments": 3,
+      "successful_experiments": 2,
+      "average_response_time": 237.32038021087646,
+      "average_time_improvement": 2409.709858874975,
+      "average_memory_improvement": 5.0,
+      "average_quality_score": 8.625
+    },
+    "stage4": {
+      "total_experiments": 3,
+      "successful_experiments": 2,
+      "average_response_time": 140.20792698860168,
+      "average_time_improvement": 1704.9681818181818,
+      "average_memory_improvement": 2.0,
+      "average_quality_score": 8.75
+    },
+    "baseline": {
+      "total_experiments": 3,
+      "successful_experiments": 3,
+      "average_response_time": 187.35861333211264,
+      "average_time_improvement": 1222.8873720136519,
+      "average_memory_improvement": Infinity,
+      "average_quality_score": 9.15
+    },
+    "stage3": {
+      "total_experiments": 3,
+      "successful_experiments": 3,
+      "average_response_time": 246.85284487406412,
+      "average_time_improvement": 1020.0801081187894,
+      "average_memory_improvement": Infinity,
+      "average_quality_score": 8.5
+    },
+    "stage2": {
+      "total_experiments": 3,
+      "successful_experiments": 3,
+      "average_response_time": 118.69902682304382,
+      "average_time_improvement": 193.69903433476395,
+      "average_memory_improvement": 5.0,
+      "average_quality_score": 8.583333333333334
+    }
+  },
+  "models": {
+    "deepseek-r1:14b": {
+      "total_experiments": 5,
+      "successful_experiments": 5,
+      "average_response_time": 398.729275226593,
+      "average_time_improvement": 1626.347269129046,
+      "average_memory_improvement": Infinity,
+      "average_quality_score": 8.91
+    },
+    "codellama:7b": {
+      "total_experiments": 5,
+      "successful_experiments": 3,
+      "average_response_time": 89.59786319732666,
+      "average_time_improvement": 163.1237579042457,
+      "average_memory_improvement": Infinity,
+      "average_quality_score": 8.5
+    },
+    "qwen2.5-coder:7b": {
+      "total_experiments": 5,
+      "successful_experiments": 5,
+      "average_response_time": 30.269620752334596,
+      "average_time_improvement": 1686.2744186046511,
+      "average_memory_improvement": 2.0,
+      "average_quality_score": 8.5
+    }
+  },
+  "overall": {
+    "total_experiments": 15,
+    "successful_experiments": 13,
+    "average_response_time": 185.67600534512445
+  }
+}
