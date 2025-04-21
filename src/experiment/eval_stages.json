@@ -1,12 +1,7 @@
 {
   "baseline": {
     "description": "Establish a baseline for how code improvements are generated and explainable.",
-    "models": [
-      "codellama:7b",
-      "qwen2.5-coder:7b",
-      "qwq:32b",
-      "deepseek-r1:32b"
-    ],
+    "models": ["codellama:7b", "qwen2.5-coder:7b", "deepseek-r1:14b"],
     "modelParameters": {
       "temperature": 0.5
     },
@@ -16,12 +11,7 @@
   },
   "stage1": {
     "description": "Evaluate how chain-of-thought prompting affects code generations and explainability.",
-    "models": [
-      "codellama:7b",
-      "qwen2.5-coder:7b",
-      "qwq:32b",
-      "deepseek-r1:32b"
-    ],
+    "models": ["codellama:7b", "qwen2.5-coder:7b", "deepseek-r1:14b"],
     "modelParameters": {
       "temperature": 0.5
     },
@@ -31,12 +21,7 @@
   },
   "stage2": {
     "description": "Evaluate how additional code context affects the quality of code generation and explainability.",
-    "models": [
-      "codellama:7b",
-      "qwen2.5-coder:7b",
-      "qwq:32b",
-      "deepseek-r1:32b"
-    ],
+    "models": ["codellama:7b", "qwen2.5-coder:7b", "deepseek-r1:14b"],
     "modelParameters": {
       "temperature": 0.5
     },
@@ -46,12 +31,7 @@
   },
   "stage3": {
     "description": "Evaluate how temperature affects the quality of code generation and explainability. Higher temperature means more creativity and risk of errors.",
-    "models": [
-      "codellama:7b",
-      "qwen2.5-coder:7b",
-      "qwq:32b",
-      "deepseek-r1:32b"
-    ],
+    "models": ["codellama:7b", "qwen2.5-coder:7b", "deepseek-r1:14b"],
     "modelParameters": {
       "temperature": 0.8
     },
@@ -61,12 +41,7 @@
   },
   "stage4": {
     "description": "Evaluate the effect of the combination of additional code context, higher temperature, and chain-of-thought prompting on code quality and explainability.",
-    "models": [
-      "codellama:7b",
-      "qwen2.5-coder:7b",
-      "qwq:32b",
-      "deepseek-r1:32b"
-    ],
+    "models": ["codellama:7b", "qwen2.5-coder:7b", "deepseek-r1:14b"],
     "modelParameters": {
       "temperature": 0.8
     },

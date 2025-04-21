@@ -14,4 +14,7 @@ node_modules
 .vscode-test/
 *.vsix
 
-# Temp file used for testing completions
+.env
+
+# Experiment results
+results
