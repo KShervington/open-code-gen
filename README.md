@@ -68,22 +68,6 @@ The extension is built with:
 - Add support for more advanced code generation features
 - Improve error handling and user feedback
 
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
 ---
 
 ## Following extension guidelines
@@ -104,5 +88,3 @@ You can author your README using Visual Studio Code. Here are some useful editor
 
 - [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
 - [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
