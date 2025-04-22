@@ -1,0 +1,75 @@
+{
+  "stages": {
+    "stage2": {
+      "total_experiments": 3,
+      "successful_experiments": 3,
+      "average_response_time": 63.8362230459849,
+      "average_time_improvement": 125.49967616580311,
+      "average_memory_improvement": Infinity,
+      "average_quality_score": 8.575
+    },
+    "stage4": {
+      "total_experiments": 3,
+      "successful_experiments": 3,
+      "average_response_time": 99.94791801770528,
+      "average_time_improvement": 1161.8573717948718,
+      "average_memory_improvement": Infinity,
+      "average_quality_score": 8.75
+    },
+    "stage1": {
+      "total_experiments": 3,
+      "successful_experiments": 3,
+      "average_response_time": 99.30610990524292,
+      "average_time_improvement": 3402.808787561146,
+      "average_memory_improvement": Infinity,
+      "average_quality_score": 8.75
+    },
+    "baseline": {
+      "total_experiments": 3,
+      "successful_experiments": 3,
+      "average_response_time": 35.26530679066976,
+      "average_time_improvement": 0,
+      "average_memory_improvement": 0,
+      "average_quality_score": 9.0
+    },
+    "stage3": {
+      "total_experiments": 3,
+      "successful_experiments": 3,
+      "average_response_time": 65.54051645596822,
+      "average_time_improvement": 99.17348173239778,
+      "average_memory_improvement": Infinity,
+      "average_quality_score": 7.833333333333333
+    }
+  },
+  "models": {
+    "qwen2.5-coder:7b": {
+      "total_experiments": 5,
+      "successful_experiments": 5,
+      "average_response_time": 14.117277669906617,
+      "average_time_improvement": 0,
+      "average_memory_improvement": 0,
+      "average_quality_score": 7.5
+    },
+    "deepseek-r1:7b": {
+      "total_experiments": 5,
+      "successful_experiments": 5,
+      "average_response_time": 105.13176207542419,
+      "average_time_improvement": 2158.8261420386525,
+      "average_memory_improvement": Infinity,
+      "average_quality_score": 8.75
+    },
+    "codellama:7b": {
+      "total_experiments": 5,
+      "successful_experiments": 5,
+      "average_response_time": 99.08860478401184,
+      "average_time_improvement": 359.35045422781275,
+      "average_memory_improvement": Infinity,
+      "average_quality_score": 8.43
+    }
+  },
+  "overall": {
+    "total_experiments": 15,
+    "successful_experiments": 15,
+    "average_response_time": 72.77921484311422
+  }
+}

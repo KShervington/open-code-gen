@@ -1,0 +1,22 @@
+{
+  "stage": "stage1",
+  "model": "qwen2.5-coder:7b",
+  "temperature": 0.5,
+  "context_line_count": 20,
+  "response_time": 13.660988330841064,
+  "improved_code": "",
+  "full_response": "",
+  "performance_metrics": {
+    "original_time": 0.08846211433410645,
+    "improved_time": null,
+    "time_improvement": null,
+    "original_memory": 4.0,
+    "improved_memory": null,
+    "memory_improvement": null,
+    "results_match": false,
+    "error": "module 'improved_module' has no attribute 'find_duplicates'",
+    "traceback": "Traceback (most recent call last):\n  File \"D:\\UCF_Classes\\Spring_2025\\CAP 6640 - Computer Understanding of Natural Language\\open-code-gen\\src\\experiment\\run_experiments.py\", line 225, in evaluate_code_performance\n    improved_func = getattr(improved_module, function_name)\nAttributeError: module 'improved_module' has no attribute 'find_duplicates'\n"
+  },
+  "quality_metrics": {},
+  "timestamp": "2025-04-22T08:16:05.819305"
+}
