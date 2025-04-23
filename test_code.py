@@ -55,9 +55,6 @@ def find_duplicates(data: List[int]) -> List[int]:
     """
     Find duplicate values in a list of integers.
     
-    This function is intentionally implemented inefficiently using
-    repeated list iterations and unnecessary operations.
-    
     Args:
         data: List of integers
         

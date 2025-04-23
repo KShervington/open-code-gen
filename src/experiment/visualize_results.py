@@ -134,7 +134,7 @@ def plot_memory_improvement_by_stage(df: pd.DataFrame, output_dir: Path):
 
 
 def plot_quality_scores_by_stage(df: pd.DataFrame, output_dir: Path):
-    """Plot quality scores by stage."""
+    """Plot quality scores by stage, properly averaging across models with valid metrics."""
     plt.figure(figsize=(14, 10))
     
     # Melt the DataFrame to get all scores in one column
@@ -146,18 +146,68 @@ def plot_quality_scores_by_stage(df: pd.DataFrame, output_dir: Path):
         value_name="score"
     )
     
-    # Create a grouped bar chart
-    sns.barplot(x="stage", y="score", hue="metric", data=melted_df)
+    # Remove rows with NaN scores
+    melted_df = melted_df.dropna(subset=["score"])
     
-    plt.title("Quality Scores by Stage")
+    # Create a summary DataFrame that shows the number of models with valid metrics for each stage
+    models_per_stage = melted_df.groupby(["stage", "metric"]).size().reset_index(name="model_count")
+    
+    # Group by stage and metric, and calculate mean score
+    aggregated_df = melted_df.groupby(["stage", "metric"])["score"].mean().reset_index()
+    
+    # Merge with model count information
+    aggregated_df = pd.merge(aggregated_df, models_per_stage, on=["stage", "metric"])
+    
+    # Create a grouped bar chart with the aggregated data
+    plt.figure(figsize=(16, 12))
+    
+    # Main plot for scores
+    ax = plt.subplot(111)
+    bars = sns.barplot(x="stage", y="score", hue="metric", data=aggregated_df, ax=ax)
+    
+    # Add text annotations showing how many models contributed to each bar
+    for i, bar in enumerate(bars.patches):
+        # Get the index in the aggregated_df that corresponds to this bar
+        idx = i % len(aggregated_df)
+        # Get the model count for this bar
+        model_count = aggregated_df.iloc[idx]["model_count"]
+        # Add text annotation
+        height = bar.get_height()
+        ax.text(bar.get_x() + bar.get_width()/2., height + 0.1,
+                f'n={model_count}', ha='center', va='bottom', fontsize=8)
+    
+    plt.title("Average Quality Scores by Stage (Across Models with Valid Metrics)")
     plt.xlabel("Stage")
-    plt.ylabel("Score (1-10)")
+    plt.ylabel("Average Score (1-10)")
     plt.grid(True, alpha=0.3)
     plt.legend(title="Metric")
     
     # Save the plot
     plt.tight_layout()
     plt.savefig(output_dir / "quality_scores_by_stage.png")
+    plt.close()
+    
+    # Create a second plot showing scores by stage and model
+    plt.figure(figsize=(18, 12))
+    g = sns.catplot(
+        data=melted_df, 
+        x="stage", 
+        y="score", 
+        hue="model", 
+        col="metric",
+        kind="bar",
+        height=5, 
+        aspect=0.8,
+        sharey=True,
+        col_wrap=3
+    )
+    g.set_axis_labels("Stage", "Score (1-10)")
+    g.set_titles("{col_name}")
+    g.fig.suptitle("Quality Scores by Stage, Model, and Metric", y=1.02, fontsize=16)
+    
+    # Save the detailed plot
+    plt.tight_layout()
+    plt.savefig(output_dir / "quality_scores_detailed.png")
     plt.close()
 
 
@@ -202,16 +252,21 @@ def plot_model_comparison(df: pd.DataFrame, output_dir: Path):
 
 def plot_correlation_matrix(df: pd.DataFrame, output_dir: Path):
     """Plot correlation matrix between different metrics."""
-    # Select numeric columns
+    # Select numeric columns and exclude original metrics
     numeric_df = df.select_dtypes(include=['float64', 'int64'])
     
+    # Remove original_time and original_memory as they're not useful for correlation analysis
+    # since they're the same for all improvements of the same function
+    columns_to_exclude = ['original_time', 'original_memory']
+    analysis_df = numeric_df.drop(columns=[col for col in columns_to_exclude if col in numeric_df.columns])
+    
     # Calculate correlation matrix
-    corr_matrix = numeric_df.corr()
+    corr_matrix = analysis_df.corr()
     
     # Plot heatmap
     plt.figure(figsize=(12, 10))
     sns.heatmap(corr_matrix, annot=True, cmap="coolwarm", fmt=".2f", linewidths=0.5)
-    plt.title("Correlation Matrix of Metrics")
+    plt.title("Correlation Matrix of Improvement Metrics")
     
     # Save the plot
     plt.tight_layout()

@@ -16,11 +16,11 @@ export class ReviewProvider {
   private systemMessage: string =
     "You are a code review assistant who is an expert at reviewing code and suggesting improvements.";
   private humanMessage: string =
-    "Improve the specified code based on information given. Format your answer as markdown.";
+    "Improve the specified code based on the information given. I need you to think step-by-step and show your work.\n\nStep 1: Understand the Goal: Briefly restate what the original code does and what the goal of the improvement is based on the provided information.\nStep 2: Identify Problems/Opportunities: Examine the original code line-by-line or section-by-section. What specific parts violate the requirements or could be done better (e.g., inefficient loop, unclear variable name, missing validation)? List them.\nStep 3: Devise Solutions: For each problem identified in Step 2, outline the specific change you will make. Why is this the right fix? Are there alternatives you considered?\nStep 4: Construct the Improved Code: Write the new version of the code integrating the solutions from Step 3.\nStep 5: Explain the Result: Compare the new code to the old. Highlight the key changes and explain how they fulfill the requirements and lead to better code.\n\nEnsure your response follows these steps clearly. Format the entire output, including all steps and the final code, using markdown.";
 
   constructor() {
     this.model = new Ollama({
-      model: "codellama:7b",
+      model: "qwen2.5-coder:7b",
       numGpu: 1,
       temperature: 0.5,
     });

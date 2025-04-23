@@ -60,6 +60,7 @@
     "@langchain/ollama": "^0.2.0",
     "cmake-js": "^7.3.0",
     "dotenv": "^16.5.0",
-    "langsmith": "^0.3.19"
+    "langsmith": "^0.3.19",
+    "marked": "^15.0.9"
   }
 }

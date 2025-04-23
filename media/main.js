@@ -90,9 +90,6 @@ function addCopyButton(block, index) {
 function highlightSyntax(element) {
   // Add a class for styling
   element.classList.add("code-block");
-
-  // You could implement more sophisticated syntax highlighting here
-  // or use a library like highlight.js in a production extension
 }
 
 // Set up event listeners once the DOM is ready

@@ -5,6 +5,7 @@ This framework is designed to evaluate the performance of various LLM models in 
 ## Overview
 
 The experiment framework evaluates:
+
 1. **Time and space complexity** of code produced by different models
 2. **Token usage** (via LangSmith integration)
 3. **Quality of responses** (using an LLM as a judge)
@@ -38,11 +39,13 @@ The experiment is structured into several stages, each testing different aspects
 ## Setup
 
 1. Install the required packages:
+
    ```bash
    pip install langchain langchain_community langsmith matplotlib pandas seaborn
    ```
 
 2. Set up LangSmith for token usage tracking (optional but recommended):
+
    ```bash
    export LANGCHAIN_TRACING_V2=true
    export LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
@@ -55,8 +58,8 @@ The experiment is structured into several stages, each testing different aspects
    # Pull the required models
    ollama pull codellama:7b
    ollama pull qwen2.5-coder:7b
-   ollama pull qwq:32b
-   ollama pull deepseek-r1:32b
+   ollama pull deepseek-r1:7b
+   ollama pull llama3.2:3b
    ```
 
 ## Running Experiments
@@ -98,6 +101,7 @@ This will generate various visualizations and an HTML report in the `visualizati
 ### Results Structure
 
 Each experiment generates a JSON file with the following information:
+
 - Stage and model details
 - Response time
 - Improved code
@@ -124,6 +128,7 @@ Each experiment generates a JSON file with the following information:
 ### Visualizations
 
 The visualization script generates several plots:
+
 - Time improvement by stage and model
 - Memory improvement by stage and model
 - Quality scores by stage
@@ -133,12 +138,14 @@ The visualization script generates several plots:
 ## HTML Report
 
 The HTML report provides a comprehensive view of the experiment results, including:
+
 - Summary tables by stage and model
 - All visualizations embedded in one document
 
 ## Example Analysis
 
 When analyzing the results, consider questions like:
+
 - Which model performs best for code improvement in terms of efficiency?
 - Does chain-of-thought prompting (stage1) improve code quality?
 - Does additional context (stage2) help models generate better code?
@@ -148,6 +155,7 @@ When analyzing the results, consider questions like:
 ## Extending the Framework
 
 To extend this framework:
+
 1. Add new stages to `eval_stages.json`
 2. Add new models to the existing stages
 3. Modify the evaluation metrics in `run_experiments.py`
@@ -162,6 +170,7 @@ To extend this framework:
 ## Notes on Token Usage
 
 If LangSmith integration is enabled, you can view detailed token usage statistics in the LangSmith dashboard. This helps analyze:
+
 - Input token count per model and stage
 - Output token count per model and stage
 - Cost implications of different prompting strategies
